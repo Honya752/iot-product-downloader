@@ -9,7 +9,9 @@ interface Product {
     tags: { id: number, name: string }[],
     categories: { name: string }[],
     images: { src: string }[],
-    stock_status: string
+    stock_status: string,
+    catalog_visibility: string,
+    purchasable: boolean
 }
 
 interface formattedProduct {
@@ -39,7 +41,7 @@ const formatter = (productsFileName: string, tagFileName: string, output: string
     const tags: Tag[] = JSON.parse(fs.readFileSync(tagFileName, 'utf-8'));
 
     const formattedProducts: formattedProduct[] = products
-        .filter(x => x.stock_status != 'outofstock')
+        .filter(x => x.stock_status != 'outofstock' && x.purchasable && x.catalog_visibility === 'visible')
         .map(x => ({
             slug: x.slug,
             name: x.name,
