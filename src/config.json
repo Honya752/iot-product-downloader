@@ -1,0 +1,13 @@
+{
+    "ignoreTags": [
+        "NOWDR",
+        "NOPS",
+        "BLACK SMARTDAY",
+        "CYBER MONDAY",
+        "MIKULÁS PARTY"
+    ],
+    "tagCategories": {
+        "Platform": ["Ewelink", "Tuya"],
+        "Kapcsolat": ["Wifi", "Bluetooth", "Zigbee", "RF 433MHZ", "Z-wave"]
+    }
+}
