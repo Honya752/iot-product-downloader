@@ -1,4 +1,4 @@
-import path from "path";
+import path from 'path';
 import * as fs from 'fs'
 import rawConfig from './config.json'
 
@@ -11,7 +11,8 @@ interface Product {
     images: { src: string }[],
     stock_status: string,
     catalog_visibility: string,
-    purchasable: boolean
+    purchasable: boolean,
+    status: string,
 }
 
 interface formattedProduct {
@@ -41,14 +42,14 @@ const formatter = (productsFileName: string, tagFileName: string, output: string
     const tags: Tag[] = JSON.parse(fs.readFileSync(tagFileName, 'utf-8'));
 
     const formattedProducts: formattedProduct[] = products
-        .filter(x => x.stock_status != 'outofstock' && x.purchasable && x.catalog_visibility === 'visible')
+        .filter(x => x.status == 'publish' && x.catalog_visibility === 'visible')
         .map(x => ({
             slug: x.slug,
             name: x.name,
             price: Math.round(x.price * 1.27),
             tags: x.tags.filter(x => !config.ignoreTags.includes(x.name)).map(t => t.id),
             category: x.categories[0]?.name,
-            image: x.images[0]?.src.replace('https://iotcentrum.hu/wp-content/uploads/', '')
+            image: formatImageName(x.images[0]?.src.replace('https://iotcentrum.hu/wp-content/uploads/', ''))
         }))
         .filter(p => p.tags.length > 0);
 
@@ -108,3 +109,8 @@ const formatter = (productsFileName: string, tagFileName: string, output: string
 }
 
 export default formatter;
+
+const formatImageName = (img: string) => {
+    const { dir, name, ext } = path.parse(img);
+    return path.join(dir, `${name}-247x247${ext}`);
+}
