@@ -8,6 +8,48 @@
     ],
     "tagCategories": {
         "Platform": ["Ewelink", "Tuya"],
-        "Kapcsolat": ["Wifi", "Bluetooth", "Zigbee", "RF 433MHZ", "Z-wave"]
+        "Kapcsolat": [
+            "Wifi",
+            "Bluetooth",
+            "Zigbee",
+            "RF 433MHZ",
+            "Z-wave",
+            "LAN",
+            "RJ45",
+            "Infravörös",
+            "868Mhz",
+            "RF 2"
+        ],
+        "Funkció": [
+            "Kapcsoló",
+            "Dimmer",
+            "Redőnyvezérlés",
+            "Fűtés",
+            "Hűtés",
+            "Világítás",
+            "Szenzor",
+            "Mozgás",
+            "Nyitásérzékelő",
+            "Füstérzékelő",
+            "Gázérzékelő",
+            "Vízérzékelő",
+            "Páratartalom",
+            "Hőmérséklet",
+            "Fogyasztásmérők",
+            "Árammérő",
+            "Áramváltó",
+            "Sziréna",
+            "Hangjelzés",
+            "Függönymozgatás",
+            "Kamera",
+            "Zár",
+            "Termosztátok",
+            "Szelep",
+            "Öntözés",
+            "Jelenlét",
+            "Naptár",
+            "Időjárás",
+            "Vezérlés"
+        ]
     }
 }

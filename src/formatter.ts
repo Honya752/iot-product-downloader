@@ -34,9 +34,23 @@ interface Config {
     tagCategories: { [category: string]: string[] }
 }
 
+type formatterProp = {
+    productsFileName: string,
+    tagFileName: string,
+    output: string,
+    save: boolean,
+    tempFolder: string
+}
+
 const config: Config = rawConfig;
 
-const formatter = (productsFileName: string, tagFileName: string, output: string) => {
+const formatter = ({
+    productsFileName,
+    tagFileName,
+    output,
+    save,
+    tempFolder
+}: formatterProp) => {
 
     const products: Product[] = JSON.parse(fs.readFileSync(productsFileName, 'utf-8'));
     const tags: Tag[] = JSON.parse(fs.readFileSync(tagFileName, 'utf-8'));
@@ -55,9 +69,11 @@ const formatter = (productsFileName: string, tagFileName: string, output: string
 
     console.log("ℹ️ Product filtered:", formattedProducts.length)
 
-    const fileName = path.join(output, `formattedProducts.json`);
-    fs.mkdirSync(output, { recursive: true });
-    fs.writeFileSync(fileName, JSON.stringify(formattedProducts, null, 2));
+    if (save) {
+        const fileName = path.join(tempFolder, `formattedProducts.json`);
+        fs.mkdirSync(tempFolder, { recursive: true });
+        fs.writeFileSync(fileName, JSON.stringify(formattedProducts, null, 2));
+    }
 
     const formattedTags: Tag[] = tags
         .filter(x => !config.ignoreTags.includes(x.name))
@@ -85,9 +101,11 @@ const formatter = (productsFileName: string, tagFileName: string, output: string
 
     console.log("ℹ️ Tags filtered:", formattedTags.length)
 
-    const categorisedTagsFileName = path.join(output, `categorisedTags.json`);
-    fs.mkdirSync(output, { recursive: true });
-    fs.writeFileSync(categorisedTagsFileName, JSON.stringify(categorisedTags, null, 2));
+    if (save) {
+        const categorisedTagsFileName = path.join(tempFolder, `categorisedTags.json`);
+        fs.mkdirSync(tempFolder, { recursive: true });
+        fs.writeFileSync(categorisedTagsFileName, JSON.stringify(categorisedTags, null, 2));
+    }
 
     const compactProducts = formattedProducts.map(
         x => `${x.slug};${x.name};${x.price};${JSON.stringify(x.tags)};${x.category};${x.image}`
@@ -97,7 +115,7 @@ const formatter = (productsFileName: string, tagFileName: string, output: string
         `${f}:${categorisedTags[f].map(t => `${t.id},${t.name}`).join(',')}`
     ).join(';');
 
-    const dataFile = path.join(output, `data.txt`);
+    const dataFile = path.join(output, `data`);
     fs.mkdirSync(output, { recursive: true });
     fs.writeFileSync(dataFile, encodeToBase64(`${compactTags}|${compactProducts}`));
 
